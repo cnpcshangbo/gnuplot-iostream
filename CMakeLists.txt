@@ -23,11 +23,11 @@ target_link_libraries(gnuplot_iostream INTERFACE
 
 if(GnuPlotIostream_BuildTests)
   set(GnuPlotIostream_tests
-    test-assert-depth
-    test-assert-depth-colmajor
+    # test-assert-depth
+    # test-assert-depth-colmajor
     test-empty
-    test-noncopyable
-    test-outputs
+    # test-noncopyable
+    # test-outputs
     )
   foreach(atest ${GnuPlotIostream_tests})
     add_executable(${atest} ${atest}.cc)
@@ -48,6 +48,7 @@ if(GnuPlotIostream_BuildExamples)
     example-data-2d
     example-interactive
     example-misc
+    example-vector
     )
   foreach(an_example ${GnuPlotIostream_examples})
     add_executable(${an_example} ${an_example}.cc)
