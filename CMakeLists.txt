@@ -49,6 +49,7 @@ if(GnuPlotIostream_BuildExamples)
     example-interactive
     example-misc
     example-vector
+    example-csv
     )
   foreach(an_example ${GnuPlotIostream_examples})
     add_executable(${an_example} ${an_example}.cc)
