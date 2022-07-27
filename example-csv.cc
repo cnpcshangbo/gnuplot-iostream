@@ -3,8 +3,12 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <climits>
+#include <cmath>
+// #include "stdafx.h"
 
 using namespace std;
+vector<double> timestamps, x, y, z;
 class CSVPlotter{
     public:
     string filepath;
@@ -12,6 +16,8 @@ class CSVPlotter{
     CSVPlotter();
     void createCSV();
     void read_record();
+	void fillxyz();
+	void plottimexyz();
     void plot3DTrajectory();
     void plotInputs();
 };
@@ -119,10 +125,42 @@ void CSVPlotter::read_record()
 		cout << "Record not found\n";
 }
 
+void CSVPlotter::fillxyz(){
+	fstream fin;
 
+	fin.open("3ff4753a-7f4f-4480-af01-87a01a7c221d_vehicle_visual_odometry_0.csv", ios::in);
+	string line, word;
+	getline(fin, line);
+	while (!fin.eof()){
+		getline(fin, line);
+		// cout << "line: " << line<<endl;
+		stringstream s(line);
+		s.ignore( INT_MAX, ',');
+		// cout << "word: " << word << endl;
+		getline(s, word, ','); timestamps.push_back(std::stod(word));
+		getline(s, word, ','); x.push_back(stod(word));
+		getline(s, word, ','); y.push_back(stod(word));
+		getline(s, word, ','); z.push_back(stod(word));
+		s.ignore( INT_MAX, '\n');
+		
+	}
+}
+
+void CSVPlotter::plottimexyz(){
+	//first print the numbers
+	for (int i=0; i<timestamps.size();i++){
+		// cout << "timestamps: " << to_string(timestamps[i]/1000000/60);
+		cout << to_string(timestamps[i]);
+		cout << ": ";
+		cout << to_string(int(timestamps[i]/1000000) % 60);
+		cout << "; x: " << x[i] <<"; y: "<< y[i] << "; z;" << z[i] << endl;
+	};
+}
 
 int main(){
     CSVPlotter plotter;
     // plotter.createCSV();
-    plotter.read_record();
+    // plotter.read_record();
+	plotter.fillxyz();
+	plotter.plottimexyz();
 }
